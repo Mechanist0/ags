@@ -1,4 +1,4 @@
-import { startVix, stopVix } from "./vixpaper/vixpaperUtils";
+import { startVixpaper, stopVixpaper } from "./vixpaper/vixpaperUtils";
 
 const layerName = "vixpaper";
 
@@ -13,10 +13,10 @@ const layerName = "vixpaper";
 */
 
 globalThis.vixpaper = {
-  start: (path: string) => startVix(path),
-  stop: () => stopVix(),
+  start: (path: string) => startVixpaper(path),
+  stop: () => stopVixpaper(),
   reload: (path: string) => {
-    stopVix();
-    startVix(path);
+    stopVixpaper();
+    startVixpaper(path);
   },
 };
