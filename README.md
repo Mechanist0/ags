@@ -29,3 +29,19 @@ Extremely simple physics simulation for use in backgrounds
 
 - Gravity
 - Simple Shapes
+- Little Spaceship
+  - Top Down View
+  - Controlled with Arrow Keys
+
+---
+
+app.ts - Controls which application is running
+
+- src/vixlock.ts
+  - Starts the window
+  - Stops the window
+  - Reloads the window
+- src/vixpaper.ts
+  - Starts the window
+  - Stops the window
+  - Reloads the window

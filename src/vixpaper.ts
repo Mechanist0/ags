@@ -13,10 +13,10 @@ const layerName = "vixpaper";
 */
 
 globalThis.vixpaper = {
-  start: () => startVix(),
+  start: (path: string) => startVix(path),
   stop: () => stopVix(),
-  reload: () => {
+  reload: (path: string) => {
     stopVix();
-    startVix();
+    startVix(path);
   },
 };
