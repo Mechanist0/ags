@@ -1,6 +1,9 @@
 import { App, Astal, Gtk, Gdk } from "astal/gtk3";
 import { debug } from "../../app";
 import { Binding } from "astal";
+import Animated from "../../src/utils/animated";
+
+const imagePath: string = "/home/mechanist/.config/ags/res/vixpaper/";
 
 export const startVixpaper = (path: string) => {
   if (debug) log("Starting vixpaper");
@@ -28,7 +31,7 @@ const vixpaper = (gdkmonitor: Gdk.Monitor) => {
       gdkmonitor={gdkmonitor}
       // Put window at the top of the stack
       exclusivity={Astal.Exclusivity.IGNORE}
-      anchor={TOP | LEFT | RIGHT | BOTTOM}
+      anchor={TOP | LEFT | RIGHT}
       application={App}
     >
       <box
@@ -37,6 +40,8 @@ const vixpaper = (gdkmonitor: Gdk.Monitor) => {
         children={[
           <entry editable={true}></entry>,
           <button onClick={stopVixpaper} />,
+          //@ts-ignore
+          <Animated filePath={imagePath + "crankshaft.gif"} />,
         ]}
       />
     </window>
