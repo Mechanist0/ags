@@ -25,7 +25,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <Gtk.Calendar />
           </popover>
           <label label={time()} />
-          <Gtk.Video file={}></Gtk.Video>
         </menubutton>
       </centerbox>
     </window>
