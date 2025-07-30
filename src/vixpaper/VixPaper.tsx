@@ -6,6 +6,8 @@ import Gio from "gi://Gio?version=2.0";
 import Gtk from "gi://Gtk?version=4.0";
 import { interval } from "astal/time";
 import { GLib, signal } from "astal";
+import GdkWayland from "gi://GdkWayland?version=4.0";
+import AstalHyprland from "gi://AstalHyprland?version=0.1";
 
 const wallpaperPath = GLib.get_current_dir() + "/res/wallpapers/";
 
@@ -33,11 +35,11 @@ export const stopVixPaper = () => {
 
 export const vixpaper = (monitor: Gdk.Monitor) => {
   const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor;
-  if (globalThis.debug) log(globalThis.resPath);
 
   const boxEl: JSX.IntrinsicElements["box"] = Box({
     valign: Gtk.Align.CENTER,
     halign: Gtk.Align.CENTER,
+
     children: [
       Label({
         label: "sup",
@@ -45,7 +47,7 @@ export const vixpaper = (monitor: Gdk.Monitor) => {
       Button({
         onClicked: stopVixPaper,
       }),
-      webmHandler(),
+      animatedWallpaperHandler(),
     ],
   });
 
@@ -55,33 +57,27 @@ export const vixpaper = (monitor: Gdk.Monitor) => {
       name={"vixpaper"}
       gdkmonitor={monitor}
       exclusivity={Astal.Exclusivity.IGNORE}
-      anchor={TOP | LEFT | RIGHT}
+      layer={Astal.Layer.BACKGROUND}
+      //anchor={TOP | LEFT | RIGHT}
       application={App}
     >
-      {boxEl}
+      {animatedWallpaperHandler()}
     </window>
   );
 };
 
-const animationHandle: Gtk.TickCallback = (
-  widget: Gtk.Widget,
-  clock: Gdk.FrameClock,
-): boolean => {
-  widget.queue_allocate();
-  return true;
-};
-
-const webmHandler = () => {
+const animatedWallpaperHandler = () => {
   const testMedia = GLib.filename_from_utf8(
     wallpaperPaths[3],
     wallpaperPaths[3].length,
   );
   log(testMedia);
+  const hyprClient = new AstalHyprland.Client();
   const video = Gtk.MediaFile.new_for_file(Gio.file_new_for_path(testMedia[0]));
   const image = Gtk.Picture.new_for_paintable(video);
   video.play();
   video.set_loop(true);
-  image.add_tick_callback(animationHandle);
+  image.set_size_request(100, 100);
 
   return image;
 };
