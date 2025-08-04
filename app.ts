@@ -1,10 +1,13 @@
+import Astal from "gi://Astal?version=4.0";
+import Gio from "gi://Gio?version=2.0";
+import GObject from "gi://GObject?version=2.0";
+import Gtk from "gi://Gtk?version=4.0";
+import { programInvocationName, programArgs } from "system";
+import { startVixPaper, vixpaper } from "./src/vixpaper/VixPaper";
 import { App } from "astal/gtk4";
-import style from "./style.scss";
-import Bar from "./widget/Bar";
-import { startVixPaper } from "./src/vixpaper/VixPaper";
-import GLib from "gi://GLib?version=2.0";
 
-globalThis.resPath = GLib.get_current_dir() + "/res/wallpapers/";
-globalThis.debug = true;
-
-startVixPaper(resPath);
+App.start({
+  main() {
+    return vixpaper(App.get_monitors()[0]);
+  },
+});

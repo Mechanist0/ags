@@ -18,16 +18,6 @@ const wallpaperPaths = [
   wallpaperPath + "crankshaft.mp4",
 ];
 
-export const startVixPaper = (path: string) => {
-  App.start({
-    main() {
-      App.get_monitors().map(vixpaper);
-    },
-  });
-
-  if (globalThis.debug) log("VixPaper Successfully Started");
-};
-
 export const stopVixPaper = () => {
   App.get_window("vixpaper")?.destroy();
   if (globalThis.debug) log("Destroyed VixPaper");
@@ -36,32 +26,18 @@ export const stopVixPaper = () => {
 export const vixpaper = (monitor: Gdk.Monitor) => {
   const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor;
 
-  const boxEl: JSX.IntrinsicElements["box"] = Box({
-    valign: Gtk.Align.CENTER,
-    halign: Gtk.Align.CENTER,
-
-    children: [
-      Label({
-        label: "sup",
-      }),
-      Button({
-        onClicked: stopVixPaper,
-      }),
-      animatedWallpaperHandler(),
-    ],
-  });
-
   return (
     <window
-      visible
       name={"vixpaper"}
       gdkmonitor={monitor}
-      exclusivity={Astal.Exclusivity.IGNORE}
       layer={Astal.Layer.BACKGROUND}
-      //anchor={TOP | LEFT | RIGHT}
+      anchor={TOP | LEFT | RIGHT | BOTTOM}
+      exclusivity={Astal.Exclusivity.EXCLUSIVE}
       application={App}
+      visible // This needs to happen after we set the layer for reasons beyond our comprehension, the widget ignores the layer settings otherwise
     >
       {animatedWallpaperHandler()}
+      <Button valign={Gtk.Align.CENTER} onClicked={stopVixPaper} />
     </window>
   );
 };
