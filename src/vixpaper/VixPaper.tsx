@@ -4,7 +4,8 @@ import Gio from "gi://Gio?version=2.0";
 import Gtk from "gi://Gtk?version=4.0";
 import app from "ags/gtk4/app";
 import GLib from "gi://GLib?version=2.0";
-import { configOptions } from "../utils/configUtils";
+import { Accessor } from "ags";
+import { Config } from "../utils/config";
 
 var wallpaperPath = "";
 const wallpaperPaths = [
@@ -21,11 +22,14 @@ export const stopVixPaper = () => {
   if (globalThis.debug) log("Destroyed VixPaper");
 };
 
-export const vixpaper = (monitor: Gdk.Monitor) => {
+export const vixpaper = (
+  monitor: Gdk.Monitor,
+  configOpts: Accessor<Config>,
+) => {
   const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor;
 
   // Setup config opts
-  wallpaperPath = configOptions.get().wallpaperPath;
+  wallpaperPath = configOpts.get().wallpaperPath;
 
   return (
     <window

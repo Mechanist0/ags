@@ -1,3 +1,3 @@
-export interface config {
+export interface Config {
   wallpaperPath: string;
 }
