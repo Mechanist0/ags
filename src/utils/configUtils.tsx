@@ -5,6 +5,7 @@ import { Accessor, createState } from "ags";
 const [configPath, setConfigPath] = createState("");
 export const [configOptions, setConfigOptions] = createState({
   wallpaperPath: "",
+  wallpaperFileList: [""],
 });
 
 export const configStateChanged = (): Accessor<Config> => {

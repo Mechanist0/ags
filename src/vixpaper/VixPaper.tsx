@@ -1,19 +1,13 @@
 import Astal from "gi://Astal?version=4.0";
 import Gdk from "gi://Gdk?version=4.0";
-import Gio from "gi://Gio?version=2.0";
 import Gtk from "gi://Gtk?version=4.0";
 import app from "ags/gtk4/app";
-import GLib from "gi://GLib?version=2.0";
 import { Accessor } from "ags";
 import { Config } from "../utils/config";
-
-var wallpaperPath = "";
-const wallpaperPaths = [
-  "Flower0.jpg",
-  "Flower1.jpg",
-  "Flower2.jpg",
-  "crankshaft.mp4",
-];
+import {
+  animatedWallpaperHandler,
+  PlaylistAutoSwitcher,
+} from "./vixpaperUtils";
 
 // Monitor config file for changes to wallpaper path
 // If Config
@@ -27,9 +21,6 @@ export const vixpaper = (
   configOpts: Accessor<Config>,
 ) => {
   const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor;
-
-  // Setup config opts
-  wallpaperPath = configOpts.get().wallpaperPath;
 
   return (
     <window
@@ -47,22 +38,11 @@ export const vixpaper = (
         onClicked={stopVixPaper}
       />
 
-      {animatedWallpaperHandler()}
+      {PlaylistAutoSwitcher(
+        configOpts.get().wallpaperPath,
+        configOpts.get().wallpaperFileList,
+        100,
+      )}
     </window>
   );
-};
-
-const animatedWallpaperHandler = () => {
-  const testMedia = GLib.filename_from_utf8(
-    wallpaperPath + wallpaperPaths[3],
-    (wallpaperPath + wallpaperPaths[3]).length,
-  );
-  log(testMedia);
-  const video = Gtk.MediaFile.new_for_file(Gio.file_new_for_path(testMedia[0]));
-  const image = Gtk.Picture.new_for_paintable(video);
-  video.play();
-  video.set_loop(true);
-  image.set_size_request(100, 100);
-
-  return image;
 };
