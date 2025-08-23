@@ -1,23 +1,16 @@
-import { createState, With } from "ags";
+import { Accessor, createState, With } from "ags";
 import { Gtk } from "ags/gtk4";
 import { timeout } from "ags/time";
 import GLib from "gi://GLib?version=2.0";
 import { Config } from "../utils/config";
 import Gio from "gi://Gio?version=2.0";
 
-const wallpaperPaths = [
-  "Flower0.jpg",
-  "Flower1.jpg",
-  "Flower2.jpg",
-  "crankshaft.mp4",
-];
-
 export const PlaylistAutoSwitcher = (props: { config: Accessor<Config> }) => {
   const [index, setIndex] = createState(0);
 
   const nextImg = () => {
     setIndex((index.get() + 1) % props.config.get().wallpaperFiles.length);
-    timeout(props.config.get().wallpaperDurations[index.get()], nextImg);
+    timeout(props.config.get().wallpaperDurations[index.get()] * 1000, nextImg);
   };
 
   timeout(props.config.get().wallpaperDurations[index.get()], nextImg);
@@ -43,6 +36,7 @@ export const staticWallpaperHandler = (path: string) => {
   const image = Gtk.Picture.new_for_filename(
     GLib.filename_from_utf8(path, path.length)[0],
   );
+  image.set_size_request(1920, 1080);
   return image;
 };
 

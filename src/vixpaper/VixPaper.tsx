@@ -10,10 +10,8 @@ import {
 } from "./vixpaperUtils";
 
 // Monitor config file for changes to wallpaper path
-// If Config
 export const stopVixPaper = () => {
   app.get_window("vixpaper")?.destroy();
-  if (globalThis.debug) log("Destroyed VixPaper");
 };
 
 export const Vixpaper = (props: {
@@ -37,7 +35,6 @@ export const Vixpaper = (props: {
         halign={Gtk.Align.END}
         onClicked={stopVixPaper}
       />
-
       <PlaylistAutoSwitcher config={props.config} />
     </window>
   );
