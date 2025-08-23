@@ -16,16 +16,16 @@ export const stopVixPaper = () => {
   if (globalThis.debug) log("Destroyed VixPaper");
 };
 
-export const vixpaper = (
-  monitor: Gdk.Monitor,
-  configOpts: Accessor<Config>,
-) => {
+export const Vixpaper = (props: {
+  monitor: Gdk.Monitor;
+  config: Accessor<Config>;
+}) => {
   const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor;
 
   return (
     <window
       name={"vixpaper"}
-      gdkmonitor={monitor}
+      gdkmonitor={props.monitor}
       layer={Astal.Layer.BACKGROUND}
       anchor={TOP | LEFT | RIGHT | BOTTOM}
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
@@ -38,11 +38,7 @@ export const vixpaper = (
         onClicked={stopVixPaper}
       />
 
-      {PlaylistAutoSwitcher(
-        configOpts.get().wallpaperPath,
-        configOpts.get().wallpaperFileList,
-        100,
-      )}
+      <PlaylistAutoSwitcher config={props.config} />
     </window>
   );
 };
