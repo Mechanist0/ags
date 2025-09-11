@@ -35,7 +35,7 @@ export const Vixpaper = (props: {
         halign={Gtk.Align.END}
         onClicked={stopVixPaper}
       />
-      <PlaylistAutoSwitcher config={props.config} />
+      <PlaylistAutoSwitcher config={props.config} monitor={props.monitor} />
     </window>
   );
 };
