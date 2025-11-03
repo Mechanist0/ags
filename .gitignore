@@ -1,4 +1,4 @@
 node_modules/
 @girs/
-config.json
+config*.json
 wallpapers/
