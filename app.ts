@@ -14,15 +14,9 @@ app.start({
       print("sup");
     });
 
-    return (
-      Vixpaper({
-        monitor: app.get_monitors()[0],
-        config: configOpt,
-      }),
-      Vixpaper({
-        monitor: app.get_monitors()[1],
-        config: configOpt,
-      })
-    );
+    return Vixpaper({
+      monitor: app.get_monitors()[0],
+      config: configOpt,
+    });
   },
 });
